@@ -28,12 +28,12 @@ function showPageLoader() {
 async function renderDetail() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-  if (!id) { location.href = 'index.html'; return; }
+  if (!id) { location.href = '/'; return; }
 
   showPageLoader();
 
   const car = await getCarById(id);
-  if (!car) { location.href = 'index.html'; return; }
+  if (!car) { location.href = '/'; return; }
 
   document.title = `Kiro Biler – ${car.brand} ${car.model}`;
 

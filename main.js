@@ -49,7 +49,7 @@ function renderCars(cars) {
       : car.kml + ' km/l';
 
     return `
-    <div class="car-card" style="animation-delay:${i * 60}ms" onclick="location.href='car.html?id=${car.id}'">
+    <div class="car-card" style="animation-delay:${i * 60}ms" onclick="location.href='/bil/${car.id}'">
       <div class="car-card-img">
         ${imgHtml}
         <span class="status-badge ${statusClass(car.status)}">${statusLabel}</span>
