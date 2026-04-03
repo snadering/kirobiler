@@ -26,8 +26,8 @@ function showPageLoader() {
 }
 
 async function renderDetail() {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
+  const parts = window.location.pathname.split('/');
+  const id = parts[parts.length - 1];
   if (!id) { location.href = '/'; return; }
 
   showPageLoader();
