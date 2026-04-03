@@ -39,7 +39,7 @@
     <div class="hero-visual">
       <div class="hero-card-float">
         <div class="stat-bubble">
-          <span class="stat-num" id="heroCount">12</span>
+          <span class="stat-num" id="heroCount">–</span>
           <span class="stat-label" data-da="biler til salg" data-en="cars for sale">biler til salg</span>
         </div>
       </div>
@@ -73,7 +73,9 @@
         </select>
       </div>
     </div>
-    <div class="car-grid" id="carGrid"></div>
+    <div class="car-grid" id="carGrid">
+      <div class="loading-msg">Henter biler...</div>
+    </div>
     <p class="empty-msg" id="emptyMsg" style="display:none" data-da="Ingen biler matcher dit filter." data-en="No cars match your filter.">Ingen biler matcher dit filter.</p>
   </div>
 </section>
@@ -99,6 +101,8 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
 <script src="data.js"></script>
 <script src="i18n.js"></script>
 <script src="theme.js"></script>

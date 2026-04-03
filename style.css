@@ -632,3 +632,11 @@ body { background: var(--bg); color: var(--text); }
 @media (max-width: 400px) {
   .admin-car-actions { flex-direction: column; }
 }
+
+.loading-msg {
+  grid-column: 1/-1;
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 60px 0;
+  font-size: 16px;
+}

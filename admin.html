@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -28,25 +29,26 @@
     <h2>Admin login</h2>
     <p class="login-sub">Kun for Kiro Biler personale</p>
     <div class="form-group">
-      <label>Adgangskode</label>
-      <input type="password" id="passwordInput" placeholder="Indtast adgangskode" onkeydown="if(event.key==='Enter')checkLogin()"/>
+      <label>Email</label>
+      <input type="email" id="emailInput" placeholder="din@email.dk"/>
     </div>
-    <button class="btn-primary full-width" onclick="checkLogin()">Log ind</button>
-    <p class="login-error" id="loginError" style="display:none">Forkert adgangskode. Prøv igen.</p>
+    <div class="form-group" style="margin-top:12px">
+      <label>Adgangskode</label>
+      <input type="password" id="passwordInput" placeholder="Indtast adgangskode"/>
+    </div>
+    <button class="btn-primary full-width" id="loginBtn" onclick="checkLogin()" style="margin-top:20px">Log ind</button>
+    <p class="login-error" id="loginError" style="display:none"></p>
   </div>
 </div>
 
 <!-- ADMIN PANEL -->
 <div class="admin-panel" id="adminPanel" style="display:none">
   <div class="container">
-
     <div class="admin-toolbar">
       <h2>Bilstyring</h2>
       <button class="btn-primary" onclick="openForm()">+ Tilføj ny bil</button>
     </div>
-
     <div class="admin-car-list" id="adminCarList"></div>
-
   </div>
 </div>
 
@@ -112,11 +114,11 @@
           </select>
         </div>
       </div>
-      <div class="form-group full">
+      <div class="form-group full" style="margin-top:4px">
         <label>Beskrivelse</label>
         <textarea id="f_desc" rows="4" placeholder="Beskriv bilen — stand, udstyr, service-historik m.m."></textarea>
       </div>
-      <div class="form-group full">
+      <div class="form-group full" style="margin-top:4px">
         <label>Billeder (upload flere)</label>
         <div class="image-upload-area" id="imageUploadArea" onclick="document.getElementById('imageInput').click()">
           <input type="file" id="imageInput" multiple accept="image/*" style="display:none" onchange="handleImages(event)"/>
@@ -153,6 +155,8 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
 <script src="data.js"></script>
 <script src="theme.js"></script>
 <script src="admin.js"></script>
