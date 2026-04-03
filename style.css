@@ -88,7 +88,7 @@ body { background: var(--bg); color: var(--text); }
   color: var(--text);
   flex-shrink: 0;
 }
-.logo span { color: var(--accent); }
+.logo span:not(.admin-tag) { color: var(--accent); }
 .admin-tag {
   font-family: 'DM Sans', sans-serif;
   font-size: 11px; font-weight: 600;
