@@ -1,21 +1,16 @@
-// ===== MAIN PAGE =====
+// ===== MAIN PAGE — SUPABASE =====
 
-function formatPrice(p) {
-  return p.toLocaleString('da-DK') + ' kr';
-}
-
-function formatKm(k) {
-  return k.toLocaleString('da-DK') + ' km';
-}
+function formatPrice(p) { return p.toLocaleString('da-DK') + ' kr'; }
+function formatKm(k)    { return k.toLocaleString('da-DK') + ' km'; }
 
 function statusClass(s) {
-  if (s === 'Solgt' || s === 'Sold') return 'status-sold';
-  if (s === 'Reserveret' || s === 'Reserved') return 'status-res';
+  if (s === 'Solgt')      return 'status-sold';
+  if (s === 'Reserveret') return 'status-res';
   return 'status-sale';
 }
 
 function renderCars(cars) {
-  const grid = document.getElementById('carGrid');
+  const grid  = document.getElementById('carGrid');
   const empty = document.getElementById('emptyMsg');
   if (!grid) return;
 
@@ -56,9 +51,7 @@ function renderCars(cars) {
           <span class="spec-pill">${t(car.fuel)}</span>
         </div>
         <div class="car-card-footer">
-          <div>
-            <div class="car-price">${formatPrice(car.price)}</div>
-          </div>
+          <div><div class="car-price">${formatPrice(car.price)}</div></div>
           <button class="btn-card">${t('seeBil')}</button>
         </div>
       </div>
@@ -66,43 +59,43 @@ function renderCars(cars) {
   }).join('');
 }
 
-function getFilteredCars() {
+async function loadAndRender() {
+  const grid = document.getElementById('carGrid');
+  grid.innerHTML = '<div class="loading-msg" data-da="Henter biler..." data-en="Loading cars...">Henter biler...</div>';
+
+  const allCars = await getCars();
+
   const fuel  = document.getElementById('filterFuel').value;
   const price = document.getElementById('filterPrice').value;
   const year  = document.getElementById('filterYear').value;
 
-  return getCars().filter(car => {
-    if (fuel  && car.fuel !== fuel)         return false;
+  const filtered = allCars.filter(car => {
+    if (fuel  && car.fuel !== fuel)           return false;
     if (price && car.price > parseInt(price)) return false;
-    if (year  && car.year < parseInt(year))  return false;
+    if (year  && car.year < parseInt(year))   return false;
     return true;
   });
+
+  renderCars(filtered);
+  applyLang();
+
+  const heroCount = document.getElementById('heroCount');
+  if (heroCount) {
+    heroCount.textContent = allCars.filter(c => c.status === 'Til salg').length;
+  }
 }
 
 function initFilters() {
-  ['filterFuel','filterPrice','filterYear'].forEach(id => {
-    document.getElementById(id).addEventListener('change', () => {
-      renderCars(getFilteredCars());
-      applyLang();
-    });
+  ['filterFuel', 'filterPrice', 'filterYear'].forEach(id => {
+    document.getElementById(id).addEventListener('change', loadAndRender);
   });
 }
 
-function updateHeroCount() {
-  const el = document.getElementById('heroCount');
-  if (el) el.textContent = getCars().filter(c => c.status === 'Til salg').length;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  updateHeroCount();
-  renderCars(getCars());
   initFilters();
+  loadAndRender();
 
-  // Re-apply lang after dynamic render
-  setTimeout(() => applyLang(), 50);
-
-  // Re-render on lang change to update translated labels
   document.getElementById('langToggle')?.addEventListener('click', () => {
-    setTimeout(() => { renderCars(getFilteredCars()); applyLang(); }, 50);
+    setTimeout(loadAndRender, 50);
   });
 });

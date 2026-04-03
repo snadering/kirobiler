@@ -1,68 +1,55 @@
-// ===== CAR DETAIL PAGE =====
+// ===== CAR DETAIL PAGE — SUPABASE =====
 
 function formatPrice(p) { return p.toLocaleString('da-DK') + ' kr'; }
 function formatKm(k)    { return k.toLocaleString('da-DK') + ' km'; }
 
-function renderDetail() {
+async function renderDetail() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
   if (!id) { location.href = 'index.html'; return; }
 
-  const car = getCarById(id);
+  const car = await getCarById(id);
   if (!car) { location.href = 'index.html'; return; }
 
   document.title = `Kiro Biler – ${car.brand} ${car.model}`;
 
-  // Badges
   document.getElementById('detailFuelBadge').textContent = t(car.fuel);
   document.getElementById('detailGearBadge').textContent = t(car.gear);
-
-  // Title & meta
   document.getElementById('detailTitle').textContent = `${car.brand} ${car.model}`;
   document.getElementById('detailYearKm').textContent = `${car.year} · ${formatKm(car.km)}`;
   document.getElementById('detailPrice').textContent = formatPrice(car.price);
   document.getElementById('detailDesc').textContent = car.desc || '–';
 
-  // Specs grid
   const lang = getCurrentLang();
   const specs = [
-    { label: { da:'Årgang', en:'Year' },          value: car.year },
+    { label: { da:'Årgang', en:'Year' },           value: car.year },
     { label: { da:'Kilometerstand', en:'Mileage' }, value: formatKm(car.km) },
-    { label: { da:'Brændstof', en:'Fuel type' },   value: t(car.fuel) },
-    { label: { da:'Gearkasse', en:'Gearbox' },     value: t(car.gear) },
-    { label: { da:'Farve', en:'Colour' },           value: car.color || '–' },
+    { label: { da:'Brændstof', en:'Fuel type' },    value: t(car.fuel) },
+    { label: { da:'Gearkasse', en:'Gearbox' },      value: t(car.gear) },
+    { label: { da:'Farve', en:'Colour' },            value: car.color || '–' },
   ];
   if (car.fuel !== 'Elbil') {
     specs.push({ label: { da:'Km/l', en:'Km/l' }, value: car.kml });
   }
 
-  const grid = document.getElementById('detailSpecsGrid');
-  grid.innerHTML = specs.map(s => `
+  document.getElementById('detailSpecsGrid').innerHTML = specs.map(s => `
     <div class="spec-item">
       <div class="spec-item-label" data-da="${s.label.da}" data-en="${s.label.en}">${s.label[lang]}</div>
       <div class="spec-item-value">${s.value}</div>
     </div>`).join('');
 
-  // Gallery
   const galleryMain = document.getElementById('galleryMain');
   const thumbsEl    = document.getElementById('galleryThumbs');
 
   if (car.images && car.images.length > 0) {
-    let activeIdx = 0;
-
     function showImg(idx) {
-      activeIdx = idx;
       galleryMain.innerHTML = `<img src="${car.images[idx]}" alt="${car.brand} ${car.model}"/>`;
-      document.querySelectorAll('.gallery-thumb').forEach((t,i) => {
-        t.classList.toggle('active', i === idx);
-      });
+      document.querySelectorAll('.gallery-thumb').forEach((t,i) => t.classList.toggle('active', i === idx));
     }
-
     thumbsEl.innerHTML = car.images.map((img, i) => `
       <div class="gallery-thumb${i===0?' active':''}" onclick="showImage(${i})">
         <img src="${img}" alt="Foto ${i+1}"/>
       </div>`).join('');
-
     window.showImage = showImg;
     showImg(0);
   } else {
@@ -78,11 +65,11 @@ function renderDetail() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  renderDetail();
-  setTimeout(() => applyLang(), 50);
+document.addEventListener('DOMContentLoaded', async () => {
+  await renderDetail();
+  applyLang();
 
   document.getElementById('langToggle')?.addEventListener('click', () => {
-    setTimeout(() => { renderDetail(); applyLang(); }, 50);
+    setTimeout(async () => { await renderDetail(); applyLang(); }, 50);
   });
 });
