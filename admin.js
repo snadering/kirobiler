@@ -86,41 +86,50 @@ async function renderAdminList() {
 }
 
 // ===== FORM =====
-function openForm(id) {
+async function openForm(id) {
   editingId = id || null;
   pendingImages = [];
 
-  const title = document.getElementById('formTitle');
-  title.textContent = id ? 'Rediger bil' : 'Tilføj ny bil';
+  document.getElementById('formTitle').textContent = id ? 'Rediger bil' : 'Tilføj ny bil';
+
+  // Clear all fields first
+  ['f_brand','f_model','f_year','f_km','f_kml','f_color','f_price','f_desc'].forEach(fid => {
+    document.getElementById(fid).value = '';
+  });
+  document.getElementById('f_fuel').value   = 'Benzin';
+  document.getElementById('f_gear').value   = 'Manuelt gear';
+  document.getElementById('f_status').value = 'Til salg';
+  renderImagePreviews();
+
+  // Show modal immediately
+  document.getElementById('modalOverlay').style.display = 'flex';
 
   if (id) {
-    getCarById(id).then(car => {
-      if (!car) return;
-      document.getElementById('f_brand').value  = car.brand  || '';
-      document.getElementById('f_model').value  = car.model  || '';
-      document.getElementById('f_year').value   = car.year   || '';
-      document.getElementById('f_km').value     = car.km     || '';
-      document.getElementById('f_kml').value    = car.kml    || '';
-      document.getElementById('f_fuel').value   = car.fuel   || 'Benzin';
-      document.getElementById('f_gear').value   = car.gear   || 'Manuelt gear';
-      document.getElementById('f_color').value  = car.color  || '';
-      document.getElementById('f_price').value  = car.price  || '';
-      document.getElementById('f_status').value = car.status || 'Til salg';
-      document.getElementById('f_desc').value   = car.desc   || '';
-      pendingImages = car.images ? [...car.images] : [];
-      renderImagePreviews();
-    });
-  } else {
-    ['f_brand','f_model','f_year','f_km','f_kml','f_color','f_price','f_desc'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-    document.getElementById('f_fuel').value   = 'Benzin';
-    document.getElementById('f_gear').value   = 'Manuelt gear';
-    document.getElementById('f_status').value = 'Til salg';
+    const saveBtn = document.querySelector('.modal-footer .btn-primary');
+    saveBtn.textContent = 'Henter...';
+    saveBtn.disabled = true;
+
+    const car = await getCarById(id);
+
+    saveBtn.textContent = 'Gem bil';
+    saveBtn.disabled = false;
+
+    if (!car) return;
+
+    document.getElementById('f_brand').value  = car.brand  || '';
+    document.getElementById('f_model').value  = car.model  || '';
+    document.getElementById('f_year').value   = car.year   || '';
+    document.getElementById('f_km').value     = car.km     || '';
+    document.getElementById('f_kml').value    = car.kml    || '';
+    document.getElementById('f_fuel').value   = car.fuel   || 'Benzin';
+    document.getElementById('f_gear').value   = car.gear   || 'Manuelt gear';
+    document.getElementById('f_color').value  = car.color  || '';
+    document.getElementById('f_price').value  = car.price  || '';
+    document.getElementById('f_status').value = car.status || 'Til salg';
+    document.getElementById('f_desc').value   = car.desc   || '';
+    pendingImages = car.images ? [...car.images] : [];
     renderImagePreviews();
   }
-
-  document.getElementById('modalOverlay').style.display = 'flex';
 }
 
 function closeForm() {
