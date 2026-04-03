@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="da" data-theme="light" data-lang="da">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kiro Biler – Bildetaljer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">Kiro<span>Biler</span></a>
+    <nav class="nav-links">
+      <a href="index.html" data-da="← Alle biler" data-en="← All cars">← Alle biler</a>
+    </nav>
+    <div class="header-controls">
+      <button class="lang-toggle" id="langToggle" title="Switch language">
+        <span id="langFlag">🇩🇰</span><span id="langLabel">DA</span>
+      </button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <span class="theme-icon">☀️</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="car-detail-page" id="carDetailPage">
+  <div class="container">
+    <div class="detail-layout">
+
+      <div class="detail-gallery">
+        <div class="gallery-main" id="galleryMain">
+          <div class="gallery-placeholder">
+            <svg width="80" height="48" viewBox="0 0 80 48" fill="none"><rect x="5" y="16" width="70" height="22" rx="4" fill="currentColor" opacity=".12"/><path d="M12 16 L24 4 L56 4 L68 16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linejoin="round"/><circle cx="22" cy="38" r="7" fill="currentColor" opacity=".25"/><circle cx="58" cy="38" r="7" fill="currentColor" opacity=".25"/></svg>
+          </div>
+        </div>
+        <div class="gallery-thumbs" id="galleryThumbs"></div>
+      </div>
+
+      <div class="detail-info">
+        <div class="detail-badge-row">
+          <span class="detail-badge" id="detailFuelBadge">Benzin</span>
+          <span class="detail-badge secondary" id="detailGearBadge">Automatgear</span>
+        </div>
+        <h1 class="detail-title" id="detailTitle">–</h1>
+        <p class="detail-year-km" id="detailYearKm">–</p>
+        <p class="detail-price" id="detailPrice">–</p>
+
+        <div class="detail-specs-grid" id="detailSpecsGrid"></div>
+
+        <div class="detail-desc-block">
+          <h4 data-da="Beskrivelse" data-en="Description">Beskrivelse</h4>
+          <p id="detailDesc">–</p>
+        </div>
+
+        <a href="tel:+4512345678" class="btn-primary full-width" data-da="📞 Ring og spørg om bilen" data-en="📞 Call and ask about this car">📞 Ring og spørg om bilen</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="logo-small">Kiro<span>Biler</span></span>
+    <span class="footer-copy" data-da="© 2025 Kiro Biler. Alle rettigheder forbeholdes." data-en="© 2025 Kiro Biler. All rights reserved.">© 2025 Kiro Biler. Alle rettigheder forbeholdes.</span>
+    <a href="admin.html" class="admin-link" data-da="Admin" data-en="Admin">Admin</a>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="i18n.js"></script>
+<script src="theme.js"></script>
+<script src="car.js"></script>
+</body>
+</html>

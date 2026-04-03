@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="da" data-theme="light" data-lang="da">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kiro Biler – Kvalitetsbiler til gode priser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">Kiro<span>Biler</span></a>
+    <nav class="nav-links">
+      <a href="index.html" data-da="Biler" data-en="Cars">Biler</a>
+      <a href="#contact" data-da="Kontakt" data-en="Contact">Kontakt</a>
+    </nav>
+    <div class="header-controls">
+      <button class="lang-toggle" id="langToggle" title="Switch language">
+        <span id="langFlag">🇩🇰</span><span id="langLabel">DA</span>
+      </button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <span class="theme-icon">☀️</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="hero-tag" data-da="Autoriseret forhandler" data-en="Authorised dealer">Autoriseret forhandler</p>
+      <h1 data-da="Din næste bil<br>venter her" data-en="Your next car<br>awaits here">Din næste bil<br>venter her</h1>
+      <p class="hero-sub" data-da="Gennemgåede brugte biler og nye modeller — Kiro Biler har handlet biler siden 2010." data-en="Inspected used cars and new models — Kiro Biler has been trading since 2010.">Gennemgåede brugte biler og nye modeller — Kiro Biler har handlet biler siden 2010.</p>
+      <a href="#listings" class="btn-primary" data-da="Se alle biler" data-en="View all cars">Se alle biler</a>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-float">
+        <div class="stat-bubble">
+          <span class="stat-num" id="heroCount">12</span>
+          <span class="stat-label" data-da="biler til salg" data-en="cars for sale">biler til salg</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="listings" id="listings">
+  <div class="container">
+    <div class="listings-header">
+      <h2 data-da="Alle biler" data-en="All cars">Alle biler</h2>
+      <div class="filters">
+        <select class="filter-select" id="filterFuel">
+          <option value="" data-da="Alle brændstoffer" data-en="All fuel types">Alle brændstoffer</option>
+          <option value="Benzin" data-da="Benzin" data-en="Petrol">Benzin</option>
+          <option value="Diesel" data-da="Diesel" data-en="Diesel">Diesel</option>
+          <option value="Hybrid" data-da="Hybrid" data-en="Hybrid">Hybrid</option>
+          <option value="Elbil" data-da="Elbil" data-en="Electric">Elbil</option>
+        </select>
+        <select class="filter-select" id="filterPrice">
+          <option value="" data-da="Alle priser" data-en="All prices">Alle priser</option>
+          <option value="200000" data-da="Under 200.000 kr" data-en="Under 200,000 kr">Under 200.000 kr</option>
+          <option value="350000" data-da="Under 350.000 kr" data-en="Under 350,000 kr">Under 350.000 kr</option>
+          <option value="500000" data-da="Under 500.000 kr" data-en="Under 500,000 kr">Under 500.000 kr</option>
+        </select>
+        <select class="filter-select" id="filterYear">
+          <option value="" data-da="Alle årgange" data-en="All years">Alle årgange</option>
+          <option value="2020">2020+</option>
+          <option value="2018">2018+</option>
+          <option value="2015">2015+</option>
+        </select>
+      </div>
+    </div>
+    <div class="car-grid" id="carGrid"></div>
+    <p class="empty-msg" id="emptyMsg" style="display:none" data-da="Ingen biler matcher dit filter." data-en="No cars match your filter.">Ingen biler matcher dit filter.</p>
+  </div>
+</section>
+
+<section class="contact-strip" id="contact">
+  <div class="container contact-inner">
+    <div>
+      <h3 data-da="Tag fat i os" data-en="Get in touch">Tag fat i os</h3>
+      <p data-da="Vi hjælper dig gerne med at finde den rigtige bil." data-en="We're happy to help you find the right car.">Vi hjælper dig gerne med at finde den rigtige bil.</p>
+    </div>
+    <div class="contact-details">
+      <a href="tel:+4512345678">📞 +45 12 34 56 78</a>
+      <a href="mailto:info@kirobiler.dk">✉️ info@kirobiler.dk</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="logo-small">Kiro<span>Biler</span></span>
+    <span class="footer-copy" data-da="© 2025 Kiro Biler. Alle rettigheder forbeholdes." data-en="© 2025 Kiro Biler. All rights reserved.">© 2025 Kiro Biler. Alle rettigheder forbeholdes.</span>
+    <a href="admin.html" class="admin-link" data-da="Admin" data-en="Admin">Admin</a>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="i18n.js"></script>
+<script src="theme.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

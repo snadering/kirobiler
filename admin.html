@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="da" data-theme="light" data-lang="da">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kiro Biler – Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">Kiro<span>Biler</span> <span class="admin-tag">Admin</span></a>
+    <div class="header-controls">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <span class="theme-icon">☀️</span>
+      </button>
+      <button class="btn-ghost" id="logoutBtn" style="display:none" onclick="adminLogout()">Log ud</button>
+    </div>
+  </div>
+</header>
+
+<!-- LOGIN SCREEN -->
+<div class="admin-login-wrap" id="loginScreen">
+  <div class="login-card">
+    <h2>Admin login</h2>
+    <p class="login-sub">Kun for Kiro Biler personale</p>
+    <div class="form-group">
+      <label>Adgangskode</label>
+      <input type="password" id="passwordInput" placeholder="Indtast adgangskode" onkeydown="if(event.key==='Enter')checkLogin()"/>
+    </div>
+    <button class="btn-primary full-width" onclick="checkLogin()">Log ind</button>
+    <p class="login-error" id="loginError" style="display:none">Forkert adgangskode. Prøv igen.</p>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel" style="display:none">
+  <div class="container">
+
+    <div class="admin-toolbar">
+      <h2>Bilstyring</h2>
+      <button class="btn-primary" onclick="openForm()">+ Tilføj ny bil</button>
+    </div>
+
+    <div class="admin-car-list" id="adminCarList"></div>
+
+  </div>
+</div>
+
+<!-- CAR FORM MODAL -->
+<div class="modal-overlay" id="modalOverlay" style="display:none">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="formTitle">Tilføj ny bil</h3>
+      <button class="modal-close" onclick="closeForm()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Mærke</label>
+          <input type="text" id="f_brand" placeholder="f.eks. Volkswagen"/>
+        </div>
+        <div class="form-group">
+          <label>Model</label>
+          <input type="text" id="f_model" placeholder="f.eks. Golf GTI"/>
+        </div>
+        <div class="form-group">
+          <label>Årgang</label>
+          <input type="number" id="f_year" placeholder="f.eks. 2022"/>
+        </div>
+        <div class="form-group">
+          <label>Kilometerstand</label>
+          <input type="number" id="f_km" placeholder="f.eks. 45000"/>
+        </div>
+        <div class="form-group">
+          <label>Km/l</label>
+          <input type="number" step="0.1" id="f_kml" placeholder="f.eks. 18.5"/>
+        </div>
+        <div class="form-group">
+          <label>Brændstof</label>
+          <select id="f_fuel">
+            <option value="Benzin">Benzin</option>
+            <option value="Diesel">Diesel</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="Elbil">Elbil</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Gearkasse</label>
+          <select id="f_gear">
+            <option value="Manuelt gear">Manuelt gear</option>
+            <option value="Automatgear">Automatgear</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Farve</label>
+          <input type="text" id="f_color" placeholder="f.eks. Sort metallic"/>
+        </div>
+        <div class="form-group">
+          <label>Pris (kr)</label>
+          <input type="number" id="f_price" placeholder="f.eks. 329900"/>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="f_status">
+            <option value="Til salg">Til salg</option>
+            <option value="Solgt">Solgt</option>
+            <option value="Reserveret">Reserveret</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group full">
+        <label>Beskrivelse</label>
+        <textarea id="f_desc" rows="4" placeholder="Beskriv bilen — stand, udstyr, service-historik m.m."></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Billeder (upload flere)</label>
+        <div class="image-upload-area" id="imageUploadArea" onclick="document.getElementById('imageInput').click()">
+          <input type="file" id="imageInput" multiple accept="image/*" style="display:none" onchange="handleImages(event)"/>
+          <div class="upload-prompt" id="uploadPrompt">
+            <span class="upload-icon">📷</span>
+            <p>Klik for at vælge billeder</p>
+            <p class="upload-hint">JPG, PNG, WEBP — vælg gerne flere</p>
+          </div>
+          <div class="image-previews" id="imagePreviews"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeForm()">Annuller</button>
+      <button class="btn-primary" onclick="saveCar()">Gem bil</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="modal-overlay" id="deleteOverlay" style="display:none">
+  <div class="modal-card small">
+    <div class="modal-header">
+      <h3>Slet bil</h3>
+      <button class="modal-close" onclick="closeDelete()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p>Er du sikker på, at du vil slette denne bil? Dette kan ikke fortrydes.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeDelete()">Annuller</button>
+      <button class="btn-danger" onclick="confirmDelete()">Ja, slet</button>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="theme.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
