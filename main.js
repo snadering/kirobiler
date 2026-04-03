@@ -9,6 +9,19 @@ function statusClass(s) {
   return 'status-sale';
 }
 
+function skeletonCards(count) {
+  return Array.from({ length: count }, () => `
+    <div class="skeleton-card">
+      <div class="skeleton-img"></div>
+      <div class="skeleton-body">
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line tall medium"></div>
+        <div class="skeleton-line full"></div>
+        <div class="skeleton-line medium"></div>
+      </div>
+    </div>`).join('');
+}
+
 function renderCars(cars) {
   const grid  = document.getElementById('carGrid');
   const empty = document.getElementById('emptyMsg');
@@ -61,7 +74,9 @@ function renderCars(cars) {
 
 async function loadAndRender() {
   const grid = document.getElementById('carGrid');
-  grid.innerHTML = '<div class="loading-msg" data-da="Henter biler..." data-en="Loading cars...">Henter biler...</div>';
+
+  // Show skeleton cards immediately
+  grid.innerHTML = skeletonCards(4);
 
   const allCars = await getCars();
 
@@ -94,7 +109,6 @@ function initFilters() {
 document.addEventListener('DOMContentLoaded', () => {
   initFilters();
   loadAndRender();
-
   document.getElementById('langToggle')?.addEventListener('click', () => {
     setTimeout(loadAndRender, 50);
   });

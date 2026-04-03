@@ -3,10 +3,34 @@
 function formatPrice(p) { return p.toLocaleString('da-DK') + ' kr'; }
 function formatKm(k)    { return k.toLocaleString('da-DK') + ' km'; }
 
+function showPageLoader() {
+  document.getElementById('detailTitle').textContent = '';
+  document.getElementById('detailYearKm').textContent = '';
+  document.getElementById('detailPrice').textContent = '';
+  document.getElementById('detailDesc').textContent = '';
+  document.getElementById('detailFuelBadge').textContent = '';
+  document.getElementById('detailGearBadge').textContent = '';
+  document.getElementById('detailSpecsGrid').innerHTML = '';
+  document.getElementById('galleryThumbs').innerHTML = '';
+  document.getElementById('galleryMain').innerHTML = `
+    <div class="loader-center" style="height:100%">
+      <div class="spinner"></div>
+    </div>`;
+
+  // Skeleton specs
+  document.getElementById('detailSpecsGrid').innerHTML = Array.from({length: 4}, () => `
+    <div class="spec-item">
+      <div class="skeleton-line short" style="height:10px;margin-bottom:6px"></div>
+      <div class="skeleton-line medium" style="height:16px;margin-bottom:0"></div>
+    </div>`).join('');
+}
+
 async function renderDetail() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
   if (!id) { location.href = 'index.html'; return; }
+
+  showPageLoader();
 
   const car = await getCarById(id);
   if (!car) { location.href = 'index.html'; return; }
@@ -68,7 +92,6 @@ async function renderDetail() {
 document.addEventListener('DOMContentLoaded', async () => {
   await renderDetail();
   applyLang();
-
   document.getElementById('langToggle')?.addEventListener('click', () => {
     setTimeout(async () => { await renderDetail(); applyLang(); }, 50);
   });

@@ -101,18 +101,17 @@ async function openForm(id) {
   document.getElementById('f_status').value = 'Til salg';
   renderImagePreviews();
 
-  // Show modal immediately
+  // Show modal — if editing, show spinner over form while fetching
   document.getElementById('modalOverlay').style.display = 'flex';
 
   if (id) {
-    const saveBtn = document.querySelector('.modal-footer .btn-primary');
-    saveBtn.textContent = 'Henter...';
-    saveBtn.disabled = true;
+    const modalBody = document.querySelector('.modal-body');
+    const originalContent = modalBody.innerHTML;
+    modalBody.innerHTML = '<div class="modal-loader"><div class="spinner"></div><span>Henter biloplysninger...</span></div>';
 
     const car = await getCarById(id);
 
-    saveBtn.textContent = 'Gem bil';
-    saveBtn.disabled = false;
+    modalBody.innerHTML = originalContent;
 
     if (!car) return;
 
