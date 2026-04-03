@@ -1,8 +1,7 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/biler", "destination": "/index.html" },
     { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/bil/:id", "destination": "/car.html" }
+    { "source": "/bil/:id", "destination": "/car.html" },
+    { "source": "/biler", "destination": "/index.html" }
   ]
 }
