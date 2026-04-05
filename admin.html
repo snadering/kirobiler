@@ -34,7 +34,10 @@
     </div>
     <div class="form-group" style="margin-top:12px">
       <label>Adgangskode</label>
-      <input type="password" id="passwordInput" placeholder="Indtast adgangskode"/>
+      <div style="position:relative">
+        <input type="password" id="passwordInput" placeholder="Indtast adgangskode" style="width:100%;padding-right:44px;box-sizing:border-box"/>
+        <button type="button" onclick="togglePassword()" id="togglePwBtn" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;color:var(--text-secondary);padding:0;line-height:1">👁</button>
+      </div>
     </div>
     <button class="btn-primary full-width" id="loginBtn" onclick="checkLogin()" style="margin-top:20px">Log ind</button>
     <p class="login-error" id="loginError" style="display:none"></p>

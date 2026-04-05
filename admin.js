@@ -5,6 +5,12 @@ let deleteTargetId = null;
 let pendingImages = [];
 
 // ===== AUTH =====
+function togglePassword() {
+  const input = document.getElementById('passwordInput');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+
 async function checkLogin() {
   const email    = document.getElementById('emailInput').value.trim();
   const password = document.getElementById('passwordInput').value;
