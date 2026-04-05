@@ -151,56 +151,6 @@ async function handleImages(event) {
   }
 }
 
-async function migrateImages() {
-  const btn = document.getElementById('migrateBtn');
-  btn.disabled = true;
-
-  const { data: cars, error } = await sb.from('cars').select('id, images');
-  if (error) { alert('Fejl ved hentning af biler'); btn.disabled = false; return; }
-
-  const toMigrate = cars.filter(car => {
-    try { return JSON.parse(car.images || '[]').some(img => img.startsWith('data:')); }
-    catch(e) { return false; }
-  });
-
-  if (toMigrate.length === 0) {
-    btn.textContent = 'Ingen base64 billeder fundet';
-    setTimeout(() => { btn.textContent = 'Migrer billeder til Storage'; btn.disabled = false; }, 2000);
-    return;
-  }
-
-  let done = 0;
-  for (const car of toMigrate) {
-    btn.textContent = `Migrerer ${done + 1}/${toMigrate.length}...`;
-    let images;
-    try { images = JSON.parse(car.images || '[]'); } catch(e) { done++; continue; }
-
-    const newImages = [];
-    for (const img of images) {
-      if (!img.startsWith('data:')) { newImages.push(img); continue; }
-      try {
-        const res = await fetch(img);
-        const blob = await res.blob();
-        const ext = blob.type.split('/')[1] || 'jpg';
-        const path = `${car.id}_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-        const { error: upErr } = await sb.storage.from('car-images').upload(path, blob, { upsert: true });
-        if (upErr) { newImages.push(img); continue; }
-        const { data: { publicUrl } } = sb.storage.from('car-images').getPublicUrl(path);
-        newImages.push(publicUrl);
-      } catch(e) { newImages.push(img); }
-    }
-
-    await sb.from('cars').update({ images: JSON.stringify(newImages) }).eq('id', car.id);
-    done++;
-  }
-
-  btn.textContent = `${done} biler migreret!`;
-  setTimeout(() => {
-    btn.textContent = 'Migrer billeder til Storage';
-    btn.disabled = false;
-    renderAdminList();
-  }, 2500);
-}
 
 function renderImagePreviews() {
   const container = document.getElementById('imagePreviews');
