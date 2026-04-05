@@ -35,8 +35,8 @@ function updateLangToggle(lang) {
   const flag = document.getElementById('langFlag');
   const label = document.getElementById('langLabel');
   if (!flag) return;
-  if (lang === 'da') { flag.textContent = '🇩🇰'; label.textContent = 'DA'; }
-  else               { flag.textContent = '🇺🇸'; label.textContent = 'EN'; }
+  if (lang === 'da') { flag.textContent = '🇺🇸'; label.textContent = 'EN'; }
+  else               { flag.textContent = '🇩🇰'; label.textContent = 'DA'; }
 }
 
 function initLang() {
