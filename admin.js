@@ -137,13 +137,32 @@ function closeForm() {
   pendingImages = [];
 }
 
+function compressImage(file) {
+  return new Promise(resolve => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const MAX = 1600;
+      let w = img.width, h = img.height;
+      if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      canvas.toBlob(resolve, 'image/jpeg', 0.82);
+    };
+    img.src = url;
+  });
+}
+
 async function handleImages(event) {
   const files = Array.from(event.target.files);
   event.target.value = '';
 
   for (const file of files) {
-    const path = `${Date.now()}_${Math.random().toString(36).slice(2)}_${file.name.replace(/\s+/g, '_')}`;
-    const { error } = await sb.storage.from('car-images').upload(path, file, { upsert: true });
+    const blob = await compressImage(file);
+    const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.jpg`;
+    const { error } = await sb.storage.from('car-images').upload(path, blob, { contentType: 'image/jpeg', upsert: true });
     if (error) { console.error('Image upload error:', error); continue; }
     const { data: { publicUrl } } = sb.storage.from('car-images').getPublicUrl(path);
     pendingImages.push(publicUrl);
