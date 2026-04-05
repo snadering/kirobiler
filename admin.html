@@ -6,7 +6,7 @@
 <title>Kiro Biler – Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="/style.css"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -46,7 +46,10 @@
   <div class="container">
     <div class="admin-toolbar">
       <h2>Bilstyring</h2>
-      <button class="btn-primary" onclick="openForm()">+ Tilføj ny bil</button>
+      <div style="display:flex;gap:10px">
+        <button class="btn-ghost" id="migrateBtn" onclick="migrateImages()">Migrer billeder til Storage</button>
+        <button class="btn-primary" onclick="openForm()">+ Tilføj ny bil</button>
+      </div>
     </div>
     <div class="admin-car-list" id="adminCarList"></div>
   </div>
@@ -156,9 +159,9 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-client.js"></script>
-<script src="data.js"></script>
-<script src="theme.js"></script>
-<script src="admin.js"></script>
+<script src="/supabase-client.js"></script>
+<script src="/data.js"></script>
+<script src="/theme.js"></script>
+<script src="/admin.js"></script>
 </body>
 </html>
