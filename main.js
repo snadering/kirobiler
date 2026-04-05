@@ -82,12 +82,10 @@ async function loadAndRender() {
 
   const fuel  = document.getElementById('filterFuel').value;
   const price = document.getElementById('filterPrice').value;
-  const year  = document.getElementById('filterYear').value;
 
   const filtered = allCars.filter(car => {
     if (fuel  && car.fuel !== fuel)           return false;
     if (price && car.price > parseInt(price)) return false;
-    if (year  && car.year < parseInt(year))   return false;
     return true;
   });
 
@@ -101,7 +99,7 @@ async function loadAndRender() {
 }
 
 function initFilters() {
-  ['filterFuel', 'filterPrice', 'filterYear'].forEach(id => {
+  ['filterFuel', 'filterPrice'].forEach(id => {
     document.getElementById(id).addEventListener('change', loadAndRender);
   });
 }
