@@ -166,13 +166,25 @@ async function handleImages(event) {
   event.target.value = '';
 
   for (const file of files) {
+    // Show a local preview immediately so user gets instant feedback
+    const localUrl = URL.createObjectURL(file);
+    const index = pendingImages.length;
+    pendingImages.push(localUrl);
+    renderImagePreviews();
+
     const blob = await compressImage(file);
     const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.jpg`;
     const { error } = await sb.storage.from('car-images').upload(path, blob, { contentType: 'image/jpeg', upsert: true });
-    if (error) { console.error('Image upload error:', error); continue; }
+    if (error) {
+      console.error('Image upload error:', error);
+      alert(`Billede kunne ikke uploades: ${error.message}`);
+      pendingImages.splice(index, 1);
+      renderImagePreviews();
+      continue;
+    }
     const { data: { publicUrl } } = sb.storage.from('car-images').getPublicUrl(path);
-    pendingImages.push(publicUrl);
-    renderImagePreviews();
+    URL.revokeObjectURL(localUrl);
+    pendingImages[index] = publicUrl;
   }
 }
 
@@ -191,7 +203,7 @@ function renderImagePreviews() {
   container.innerHTML = pendingImages.map((src, i) => `
     <div class="preview-item">
       <img src="${src}" alt="Foto ${i+1}"/>
-      <button class="preview-remove" onclick="removeImage(${i})">✕</button>
+      <button class="preview-remove" onclick="event.stopPropagation();removeImage(${i})">✕</button>
     </div>`).join('');
 }
 
