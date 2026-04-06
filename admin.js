@@ -201,10 +201,35 @@ function renderImagePreviews() {
 
   prompt.style.display = 'none';
   container.innerHTML = pendingImages.map((src, i) => `
-    <div class="preview-item">
+    <div class="preview-item" draggable="true" data-index="${i}" style="cursor:grab">
       <img src="${src}" alt="Foto ${i+1}"/>
       <button class="preview-remove" onclick="event.stopPropagation();removeImage(${i})">✕</button>
     </div>`).join('');
+
+  let dragIndex = null;
+
+  container.querySelectorAll('.preview-item').forEach(item => {
+    item.addEventListener('dragstart', e => {
+      dragIndex = parseInt(item.dataset.index);
+      item.style.opacity = '0.4';
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', () => {
+      item.style.opacity = '1';
+    });
+    item.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    });
+    item.addEventListener('drop', e => {
+      e.preventDefault();
+      const dropIndex = parseInt(item.dataset.index);
+      if (dragIndex === null || dragIndex === dropIndex) return;
+      const moved = pendingImages.splice(dragIndex, 1)[0];
+      pendingImages.splice(dropIndex, 0, moved);
+      renderImagePreviews();
+    });
+  });
 }
 
 function removeImage(idx) {
