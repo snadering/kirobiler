@@ -217,7 +217,7 @@ async function saveCar() {
   const model  = document.getElementById('f_model').value.trim();
   const year   = parseInt(document.getElementById('f_year').value);
   const km     = parseInt(document.getElementById('f_km').value) || null;
-  const kml    = parseFloat(document.getElementById('f_kml').value) || 0;
+  const kml    = parseFloat(document.getElementById('f_kml').value) || null;
   const fuel   = document.getElementById('f_fuel').value;
   const gear   = document.getElementById('f_gear').value;
   const color  = document.getElementById('f_color').value.trim();
@@ -226,7 +226,7 @@ async function saveCar() {
   const desc   = document.getElementById('f_desc').value.trim();
 
   if (!brand || !model || !year || !price) {
-    alert('Udfyld venligst: mærke, model, årgang, kilometerstand og pris.');
+    alert('Udfyld venligst: mærke, model, årgang og pris.');
     return;
   }
 

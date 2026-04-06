@@ -46,7 +46,7 @@ function renderCars(cars) {
 
     const kmlSpec = car.fuel === 'Elbil'
       ? (lang === 'da' ? 'Elbil' : 'Electric')
-      : car.kml + ' km/l';
+      : car.kml ? car.kml + ' km/l' : null;
 
     return `
     <div class="car-card" style="animation-delay:${i * 60}ms" onclick="location.href='/bil/${car.id}'">
@@ -60,7 +60,7 @@ function renderCars(cars) {
         <div class="car-specs-row">
           <span class="spec-pill">${car.year}</span>
           ${car.km ? `<span class="spec-pill">${formatKm(car.km)}</span>` : ''}
-          <span class="spec-pill">${kmlSpec}</span>
+          ${kmlSpec ? `<span class="spec-pill">${kmlSpec}</span>` : ''}
           <span class="spec-pill">${t(car.fuel)}</span>
         </div>
         <div class="car-card-footer">

@@ -52,7 +52,7 @@ async function renderDetail() {
     { label: { da:'Gearkasse', en:'Gearbox' },      value: t(car.gear) },
     { label: { da:'Farve', en:'Colour' },            value: car.color || '–' },
   ];
-  if (car.fuel !== 'Elbil') {
+  if (car.fuel !== 'Elbil' && car.kml) {
     specs.push({ label: { da:'Km/l', en:'Km/l' }, value: car.kml });
   }
 
