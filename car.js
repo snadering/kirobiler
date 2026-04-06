@@ -40,14 +40,14 @@ async function renderDetail() {
   document.getElementById('detailFuelBadge').textContent = t(car.fuel);
   document.getElementById('detailGearBadge').textContent = t(car.gear);
   document.getElementById('detailTitle').textContent = `${car.brand} ${car.model}`;
-  document.getElementById('detailYearKm').textContent = `${car.year} · ${formatKm(car.km)}`;
+  document.getElementById('detailYearKm').textContent = car.km ? `${car.year} · ${formatKm(car.km)}` : `${car.year}`;
   document.getElementById('detailPrice').textContent = formatPrice(car.price);
   document.getElementById('detailDesc').textContent = car.desc || '–';
 
   const lang = getCurrentLang();
   const specs = [
     { label: { da:'Årgang', en:'Year' },           value: car.year },
-    { label: { da:'Kilometerstand', en:'Mileage' }, value: formatKm(car.km) },
+    ...(car.km ? [{ label: { da:'Kilometerstand', en:'Mileage' }, value: formatKm(car.km) }] : []),
     { label: { da:'Brændstof', en:'Fuel type' },    value: t(car.fuel) },
     { label: { da:'Gearkasse', en:'Gearbox' },      value: t(car.gear) },
     { label: { da:'Farve', en:'Colour' },            value: car.color || '–' },

@@ -59,7 +59,7 @@ function renderCars(cars) {
         <div class="car-title">${car.model}</div>
         <div class="car-specs-row">
           <span class="spec-pill">${car.year}</span>
-          <span class="spec-pill">${formatKm(car.km)}</span>
+          ${car.km ? `<span class="spec-pill">${formatKm(car.km)}</span>` : ''}
           <span class="spec-pill">${kmlSpec}</span>
           <span class="spec-pill">${t(car.fuel)}</span>
         </div>

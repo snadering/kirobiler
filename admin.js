@@ -80,7 +80,7 @@ async function renderAdminList() {
       <div class="admin-car-thumb">${thumbHtml}</div>
       <div class="admin-car-info">
         <div class="admin-car-name">${car.brand} ${car.model}</div>
-        <div class="admin-car-meta">${car.year} · ${car.km.toLocaleString('da-DK')} km · <span style="color:${statusColor};font-weight:500">${car.status}</span></div>
+        <div class="admin-car-meta">${car.year}${car.km ? ` · ${car.km.toLocaleString('da-DK')} km` : ''} · <span style="color:${statusColor};font-weight:500">${car.status}</span></div>
       </div>
       <div class="admin-car-price">${formatPrice(car.price)}</div>
       <div class="admin-car-actions">
@@ -216,7 +216,7 @@ async function saveCar() {
   const brand  = document.getElementById('f_brand').value.trim();
   const model  = document.getElementById('f_model').value.trim();
   const year   = parseInt(document.getElementById('f_year').value);
-  const km     = parseInt(document.getElementById('f_km').value);
+  const km     = parseInt(document.getElementById('f_km').value) || null;
   const kml    = parseFloat(document.getElementById('f_kml').value) || 0;
   const fuel   = document.getElementById('f_fuel').value;
   const gear   = document.getElementById('f_gear').value;
@@ -225,7 +225,7 @@ async function saveCar() {
   const status = document.getElementById('f_status').value;
   const desc   = document.getElementById('f_desc').value.trim();
 
-  if (!brand || !model || !year || !km || !price) {
+  if (!brand || !model || !year || !price) {
     alert('Udfyld venligst: mærke, model, årgang, kilometerstand og pris.');
     return;
   }
