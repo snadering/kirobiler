@@ -202,7 +202,7 @@ function renderImagePreviews() {
   prompt.style.display = 'none';
   container.innerHTML = pendingImages.map((src, i) => `
     <div class="preview-item" draggable="true" data-index="${i}" style="cursor:grab">
-      <img src="${src}" alt="Foto ${i+1}"/>
+      <img src="${src}" alt="Foto ${i+1}" draggable="false"/>
       <button class="preview-remove" onclick="event.stopPropagation();removeImage(${i})">✕</button>
     </div>`).join('');
 
